@@ -3,9 +3,10 @@ import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { auth } from './firebase-config';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import Home from './pages/Home';
+//import Home from './pages/Home';
 import CreatePetition from './pages/CreatePetition';
 import Login from './pages/Login';
+import PetitionsFeed from './pages/PetitionsFeed';
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -27,7 +28,7 @@ function App() {
     signOut(auth).then(() => {
       localStorage.removeItem('isAuth');
       setIsAuth(false);
-      window.location.pathname = '/login';
+      window.location.pathname = '/';
     });
   };
 
@@ -35,25 +36,27 @@ function App() {
     <Router>
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand as={Link} to="/">Home</Navbar.Brand>
           <Nav className="ml-auto">
-            {!isAuth ? 
-              <Nav.Link as={Link} to="/login">Login</Nav.Link> :
-              <> 
-              <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>
-            <Nav.Link as={Link} to="/createpetition">Create Petition</Nav.Link>
-            </>
+            {!isAuth ?
+              <Nav.Link as={Link} to="/">Login</Nav.Link> :
+              <>
+                <Nav className="ml-auto">
+                  <Navbar.Brand as={Link} to="/PetitionsFeed">PetitionsFeed</Navbar.Brand>
+                  <Nav.Link as={Link} to="/createpetition">Create Petition</Nav.Link>
+                  <Nav.Link onClick={handleSignOut} >Sign Out</Nav.Link>
+                </Nav>
+              </>
             }
           </Nav>
         </Container>
       </Navbar>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
+        <Route path="/PetitionsFeed" element={<PetitionsFeed />} />
         <Route path="/createpetition" element={<CreatePetition isAuth={isAuth} />} />
-        <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
       </Routes>
     </Router>
   );
 }
 
-export default App; 
+export default App;

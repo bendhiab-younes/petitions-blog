@@ -26,7 +26,7 @@ function CreatePetition( ) {
       },
 
     });
-    navigate('/');
+    navigate('/petitionsfeed');
   };
 
   useEffect(() => {
