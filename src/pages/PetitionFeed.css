@@ -1,0 +1,5 @@
+.card-constant-size {
+    width: 500px; /* Adjust this value to your liking */
+    height: 300px; /* Adjust this value to your liking */
+    overflow: auto; /* Add a scrollbar if the content is too long */
+  }
